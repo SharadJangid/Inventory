@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/bootstrap.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<script src="~/Scripts/Product.js"></script>
+
+<div class="container">
+    <div id="addrecord">
+        <!-- title -->
+        <div class="row">
+            <div class="col-12 popup-header" style="background-color:#0a0a0c54">
+                <h3>Add Record</h3>
+            </div>
+        </div>
+        <!-- title -->
+        <!-- Content -->
+        <label style="display:none" id="txt_Mode"></label>
+        <label style="display:none" id="txt_pro_id"></label>
+        <div class="row" style="margin-top:10px;margin-bottom: 10px;">
+            <div class="col-12 col-md-3 form-group">
+                <label class="form-label font-weight-bold">Product Name</label>
+                <input id="txt_tb_pro_name" type="text" class="form-control" />
+            </div>
+            <div class="col-12 col-md-3 form-group">
+                <label class="form-label font-weight-bold">Description</label>
+                <input id="txt_tb_pro_des" type="text" class="form-control" />
+            </div>
+            <div class="col-12 col-md-3 form-group">
+                <label class="form-label font-weight-bold">Price</label>
+                <input id="txt_tb_pro_price" type="number" class="form-control" />
+            </div>
+
+            <div class="col-12 col-md-3 form-group mt-4 pb-0">
+
+                <button class="btn btn-primary" onclick="SaveUpdateProduct()" style="margin-top: 6px;" type="button">Submit</button>
+                <button class="btn btn-primary" onclick="clearData()" style="margin-top: 6px;" type="button">Clear</button>
+            </div>
+
+        </div>
+        <!-- Content -->
+    </div>
+    <div class="col-12">
+        <table class="table table-sm table-responsive-sm table-striped">
+            <thead>
+                <tr>
+                    <th style="width: 60px">SNo.</th>
+                    <th style="width: 60px">Edit</th>
+                    <th style="width: 60px">Delete</th>
+
+                    <th style="width: 350px">Product Name</th>
+                    <th style="width: auto">Description</th>
+                    <th style="width: 150px">Price</th>
+
+                </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+        </table>
+    </div>
+</div>
+
+
+
