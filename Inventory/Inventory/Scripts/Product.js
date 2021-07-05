@@ -28,11 +28,11 @@ function loadData() {
 
                 html += '<tr>';
                 html += '<td>' + count + '</td>';
-                html += '<td><a href="#" onclick="getDatabyID(' + proId + ',' + proName + ',' + proDes + ',' + proPrice+')">Edit</a></td>';
-                html += '<td><a href="#" onclick="DeleleProduct(' + proId + ')">Delete</a></td>';     
+                html += '<td><a href="#" onclick="getDatabyID(' + proId + ',' + proName + ',' + proDes + ',' + proPrice + ')">Edit</a></td>';
+                html += '<td><a href="#" onclick="DeleleProduct(' + proId + ')">Delete</a></td>';
                 html += '<td>' + item.tb_pro_name + '</td>';
                 html += '<td>' + item.tb_pro_des + '</td>';
-                html += '<td>' + item.tb_pro_price + '</td>';               
+                html += '<td>' + item.tb_pro_price + '</td>';
                 html += '</tr>';
                 count = count + 1;
             });
@@ -46,29 +46,48 @@ function loadData() {
 
 //Add Data Function
 function SaveUpdateProduct() {
+    var validate = false;
 
-  //create a data object
-    var empObj = {
-        Id: $('#txt_pro_id').val(),
-        tb_pro_name: $('#txt_tb_pro_name').val(),
-        tb_pro_des: $('#txt_tb_pro_des').val(),
-        tb_pro_price: $('#txt_tb_pro_price').val(),
-        Mode: $('#txt_Mode').val()
-    };
-    $.ajax({
-        url: "api/apiproduct/addupdateproduct",
-        data: JSON.stringify(empObj),
-        type: "POST",
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        success: function (result) {
-            loadData();
-            clearData();
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });
+    if ($('#txt_tb_pro_name').val() != null && $('#txt_tb_pro_name').val() != ""
+        && $('#txt_tb_pro_price').val() != null && $('#txt_tb_pro_price').val() != "") {
+        validate = true;
+    }
+    if (validate == true) {
+        //create a data object
+        var empObj = {
+            Id: $('#txt_pro_id').val(),
+            tb_pro_name: $('#txt_tb_pro_name').val().trim(),
+            tb_pro_des: $('#txt_tb_pro_des').val().trim(),
+            tb_pro_price: $('#txt_tb_pro_price').val(),
+            Mode: $('#txt_Mode').val()
+        };
+        $.ajax({
+            url: "api/apiproduct/addupdateproduct",
+            data: JSON.stringify(empObj),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+               // alert(result);
+                if (result == -1) {
+                    alert("Product already exists");
+                }
+                else if (result == -2){
+                    alert("Something went wrong");
+                }
+                else {
+                    loadData();
+                    clearData();
+                }
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+    else {
+        alert("Please fill all mandatory fields")
+    }
 }
 
 function clearData() {
@@ -82,14 +101,14 @@ function clearData() {
 //Function for getting the Data Based upon Employee ID
 function getDatabyID(ProId, ProName, ProDes, ProPrice) {
 
-   
+
     $('#txt_pro_id').val(ProId);
     $('#txt_Mode').val("U");
     $('#txt_tb_pro_name').val(ProName);
     $('#txt_tb_pro_des').val(ProDes);
     $('#txt_tb_pro_price').val(ProPrice);
 
-         
+
 }
 
 //function for deleting employee's record
@@ -97,12 +116,12 @@ function DeleleProduct(ID) {
     var ans = confirm("Are you sure you want to delete this Record?");
     //create a data object
     var empObj = {
-        Id: ID,      
+        Id: ID,
         Mode: "D"
     };
 
     if (ans) {
-        
+
         $.ajax({
             url: "api/apiproduct/deleteproduct",
             data: JSON.stringify(empObj),

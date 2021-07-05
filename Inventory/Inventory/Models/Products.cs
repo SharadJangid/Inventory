@@ -64,7 +64,7 @@ namespace Inventory.Models
             catch { }
         }
 
-        public string AddEditDeleteProductData(ref List<string> pro, Products _objProParameter)
+        public List<string> AddEditDeleteProductData(ref List<string> pro, Products _objProParameter)
         {
             SqlParameter[] oParam = new SqlParameter[5];
 
@@ -81,11 +81,13 @@ namespace Inventory.Models
             try
             {
                 SqlHelper.ExecuteNonQuery(AppConfig.GetConnectionString(), CommandType.StoredProcedure, "[tbp_products_insert_update]", oParam);
-                return oParam[0].Value.ToString();
+                pro.Add(oParam[0].Value.ToString());
+                return pro;
             }
             catch (Exception ex)
             {
-                return "";
+                pro.Add("-2");
+                return pro;
             }
         }
 
